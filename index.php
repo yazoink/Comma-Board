@@ -1,5 +1,5 @@
 <?php
-# todo: jump to reply, max posts at a time, name/id formatting, copy post url, captcha
+# todo: max posts at a time, copy post url, captcha, show replies
 require "misc/vars.php";
 
 date_default_timezone_set($TIMEZONE);
@@ -118,7 +118,7 @@ if (array_key_exists("message", $_POST) && array_key_exists("name", $_POST)) {
       </header>
       <aside>
         <h2>About</h2>
-        <p><?php echo $BOARD_NAME; ?> is a simple message board which uses a CSV file as a database. I don't have an good reason for not using a database, other than they're annoying.</p>
+        <p><?php echo $BOARD_NAME; ?> is a simple text board which uses a CSV file as a database. I don't have an good reason for not using a database, other than they're annoying.</p>
         <br>
         <p>You can reply to posts by clicking post IDs. Greentext is also supported.</p>
         <img src="/static/images/flower.webp">
@@ -181,7 +181,7 @@ if (array_key_exists("message", $_POST) && array_key_exists("name", $_POST)) {
                   }
                   $message_page += 1;
                 }
-                $message_text = str_replace($m, "<b><i>Replying to <a href='index.php?page=" . $message_page . "#" . $id . "'>" . $id . "</a></i></b>", $message_text);
+                $message_text = str_replace($m, "<i><a href='index.php?page=" . $message_page . "#" . $id . "'>&gt;&gt;" . $id . "</a></i>", $message_text);
               }
             }
 
@@ -200,7 +200,7 @@ if (array_key_exists("message", $_POST) && array_key_exists("name", $_POST)) {
             printf("<h4><i>%s</i></h4>", $messages[$i]["date"]);
             printf("<p>%s</p><br>", $message_text);
             printf(
-              "<p>Post ID: <a href='javascript:;' id='%s' onclick='addReply(\"%s\")'>%s</a></p>",
+              "<p class='blue'>Post ID: <a href='javascript:;' id='%s' onclick='addReply(\"%s\")'>%s</a></p>",
               $messages[$i]["id"], 
               "reply_to:" . $messages[$i]["id"],
               $messages[$i]["id"]
